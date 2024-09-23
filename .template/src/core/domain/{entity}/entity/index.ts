@@ -1,0 +1,1 @@
+export { {Entity} } from "@core/domain/{entity}/entity/{Entity}";
