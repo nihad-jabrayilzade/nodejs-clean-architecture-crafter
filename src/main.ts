@@ -1,17 +1,25 @@
 import inquirer from "inquirer";
 import processEntity from "./scripts/processEntity";
-import { Framework, Layer } from "./@type";
+import { Answers, Framework, Layer, Orm } from "./@abstraction";
+import { EntityNameRegex } from "./@rule";
 
 async function main() {
-  const answers = await inquirer.prompt([
+  const answers = await inquirer.prompt<Answers>([
     {
       type: "input",
       name: "entityName",
       message: "Enter entity name: (In singular form e.g. user, user transaction)",
-      validate: (input: string) => {
-        if (!input.trim()) {
+      validate: (rawInput: string) => {
+        const input = rawInput.trim();
+
+        if (!input) {
           return "Entity name cannot be empty.";
         }
+
+        if (!EntityNameRegex.test(input)) {
+          return "Entity name must be in the form 'word' or 'word word'.";
+        }
+
         return true;
       },
     },
@@ -29,9 +37,9 @@ async function main() {
       name: "orm",
       message: "Which ORM do you want to use?",
       choices: [
-        { name: "TypeORM", value: "typeorm" },
-        { name: "Sequelize (In development)", value: "sequelize", disabled: true, description: "In development" },
-        { name: "Prisma (In development)", value: "prisma", disabled: true, description: "In development" },
+        { name: "TypeORM", value: Orm.TypeORM },
+        { name: "Sequelize (In development)", value: Orm.Sequelize, disabled: true, description: "In development" },
+        { name: "Prisma (In development)", value: Orm.Prisma, disabled: true, description: "In development" },
       ],
     },
     {
@@ -47,9 +55,7 @@ async function main() {
     },
   ]);
 
-  console.log(answers);
-
-  // processEntity(entityName);
+  processEntity(answers.entityName);
 }
 
 main();

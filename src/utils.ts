@@ -1,7 +1,6 @@
-import fs from "fs";
-import path from "path";
-import readline from "readline";
-import { ReplacementKey, Replacements } from "./@type";
+import { ReplacementKey, Replacements } from "./@abstraction";
+import { copyFile, createDir, isDirectory, isExists, readDir, readFile, removeDir, removeFile, writeFile } from "./@lib/fs";
+import { joinPaths } from "./@lib/path";
 
 export function clearAndUpper(text: string) {
   return text.replace(/[-\s]/, "").toUpperCase();
@@ -40,22 +39,22 @@ export function createReplacements(entityName: string) {
 }
 
 export function createDirIfNotExists(dir: string) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  if (!isExists(dir)) {
+    createDir(dir, { recursive: true });
   }
 }
 
 export function copyDirWithoutChanges(src: string, dest: string) {
   createDirIfNotExists(dest);
 
-  fs.readdirSync(src).forEach((element: string) => {
-    const srcPath = path.join(src, element);
-    const destPath = path.join(dest, element);
+  readDir(src).forEach((element: string) => {
+    const srcPath = joinPaths(src, element);
+    const destPath = joinPaths(dest, element);
 
     if (isDirectory(srcPath)) {
       copyDirWithoutChanges(srcPath, destPath);
     } else {
-      fs.copyFileSync(srcPath, destPath);
+      copyFile(srcPath, destPath);
     }
   });
 }
@@ -63,65 +62,43 @@ export function copyDirWithoutChanges(src: string, dest: string) {
 export function copyTemplate(src: string, dest: string, replacements: Replacements) {
   createDirIfNotExists(dest);
 
-  fs.readdirSync(src).forEach((element: string) => {
-    const srcPath = path.join(src, element);
-    const destPath = path.join(dest, replacePlaceholders(element, replacements));
+  readDir(src).forEach((element: string) => {
+    const srcPath = joinPaths(src, element);
+    const destPath = joinPaths(dest, replacePlaceholders(element, replacements));
 
     if (isDirectory(srcPath)) {
       copyTemplate(srcPath, destPath, replacements);
     } else {
-      const content = fs.readFileSync(srcPath, "utf8");
+      const content = readFile(srcPath);
       const replacedContent = replacePlaceholders(content, replacements);
 
-      fs.writeFileSync(destPath, replacedContent, "utf8");
+      writeFile(destPath, replacedContent);
     }
   });
 }
 
 export function removeDirRecursive(dir: string) {
-  if (fs.existsSync(dir)) {
-    fs.readdirSync(dir).forEach((file: string) => {
-      const currentPath = path.join(dir, file);
+  if (isExists(dir)) {
+    readDir(dir).forEach((file: string) => {
+      const currentPath = joinPaths(dir, file);
 
       if (isDirectory(currentPath)) {
         removeDirRecursive(currentPath);
       } else {
-        fs.unlinkSync(currentPath);
+        removeFile(currentPath);
       }
     });
 
-    fs.rmdirSync(dir);
+    removeDir(dir);
   }
 }
 
 export function eraseEntity(entityName: string) {
   const entityFolder = getEntityFolderName(entityName);
 
-  const domainPath = path.join("src/core/domain", entityFolder);
-  const servicePath = path.join("src/core/service", entityFolder);
+  const domainPath = joinPaths("src/core/domain", entityFolder);
+  const servicePath = joinPaths("src/core/service", entityFolder);
 
   removeDirRecursive(domainPath);
   removeDirRecursive(servicePath);
-}
-
-export function askQuestion(query: string) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) =>
-    rl.question(query, (ans) => {
-      rl.close();
-      resolve(ans);
-    }),
-  );
-}
-
-export function isDirectory(path: string) {
-  return fs.lstatSync(path).isDirectory();
-}
-
-export function isFile(path: string) {
-  return fs.lstatSync(path).isFile();
 }

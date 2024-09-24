@@ -1,22 +1,18 @@
-export type ReplacementKey = "entity" | "entities" | "Entity" | "Entities";
-
-export type Replacements = {
-  [key in ReplacementKey]: string;
-};
-
-export enum Layer {
+enum Layer {
   Core = "core",
   Application = "application",
   Infrastructure = "infrastructure",
 }
 
-export enum Framework {
+enum Framework {
   NestJS = "nestjs",
   Express = "express",
 }
 
-export enum Orm {
+enum Orm {
   TypeORM = "typeorm",
   Sequelize = "sequelize",
   Prisma = "prisma",
 }
+
+export { Layer, Framework, Orm };
