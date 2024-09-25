@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
-    "start": "ts-node src/main.ts",
+    "start": "rm -rf .output && ts-node src/main.ts",
     "lint": "eslint \"src/**/*.ts\" --fix"
   },
   "dependencies": {
