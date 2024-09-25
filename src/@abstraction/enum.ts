@@ -15,4 +15,10 @@ enum Orm {
   Prisma = "prisma",
 }
 
-export { Layer, Framework, Orm };
+enum PackageManager {
+  Yarn = "yarn",
+  NPM = "npm",
+  PNPM = "pnpm",
+}
+
+export { Layer, Framework, PackageManager, Orm };

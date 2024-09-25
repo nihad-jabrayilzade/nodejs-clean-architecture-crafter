@@ -6,11 +6,19 @@ type Replacements = {
   [key in ReplacementKey]: string;
 };
 
-type Answers = {
-  entityName: string;
+type ProjectInitializationAnswers = {
   framework: Framework;
+  packageManager: string;
   orm: Orm;
-  layer: Layer;
 };
 
-export { ReplacementKey, Replacements, Answers };
+type EntityProcessingAnswers = {
+  name: string;
+  layer: Layer & "all";
+};
+
+type LayerGenerationProps = {
+  replacements: Replacements;
+};
+
+export { ReplacementKey, Replacements, ProjectInitializationAnswers, EntityProcessingAnswers, LayerGenerationProps };

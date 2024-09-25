@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "init": "ts-node src/initializeProject.ts",
+    "generate": "ts-node src/processEntity.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "rm -rf .output && ts-node src/main.ts",
     "lint": "eslint \"src/**/*.ts\" --fix"
