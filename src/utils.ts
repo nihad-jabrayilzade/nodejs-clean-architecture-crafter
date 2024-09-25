@@ -1,104 +1,83 @@
-import { ReplacementKey, Replacements } from "./@abstraction";
-import { copyFile, createDir, isDirectory, isExists, readDir, readFile, removeDir, removeFile, writeFile } from "./@lib/fs";
+import { Replacements } from "./@abstraction";
+import { copyFile, createDir, isDirectory, readDir, readFile, renamePath, writeFile } from "./@lib/fs";
 import { joinPaths } from "./@lib/path";
 
-export function clearAndUpper(text: string) {
-  return text.replace(/[-\s]/, "").toUpperCase();
-}
+const NamingConvention = {
+  clearAndUpper: (text: string) => text.replace(/[-\s]/, "").toUpperCase(),
+  toKebabCase: (str: string) =>
+    str
+      .replace(/([a-z])([A-Z])/g, "$1-$2")
+      .replace(/\s+/g, "-")
+      .toLowerCase(),
+  toPascalCase: (str: string) => str.replace(/(^\w|-\w|\s\w)/g, NamingConvention.clearAndUpper),
+  toCamelCase: (str: string) => str.replace(/(\s\w|-\w)/g, NamingConvention.clearAndUpper).replace(/^./, str[0].toLowerCase()),
+};
 
-export function toKebabCase(str: string) {
-  return str
-    .replace(/([a-z])([A-Z])/g, "$1-$2")
-    .replace(/\s+/g, "-")
-    .toLowerCase();
-}
-
-export function toPascalCase(str: string) {
-  return str.replace(/(^\w|-\w|\s\w)/g, clearAndUpper);
-}
-
-export function toCamelCase(str: string) {
-  return str.replace(/(\s\w|-\w)/g, clearAndUpper).replace(/^./, str[0].toLowerCase());
-}
-
-export function replacePlaceholders(content: string, replacements: Replacements) {
-  return content.replace(/{(\w+)}/g, (_, key: ReplacementKey) => replacements[key] || `{${key}}`);
-}
+// export function replacePlaceholders(content: string, replacements: Replacements) {
+//   return content.replace(/{(\w+)}/g, (_, key: ReplacementKey) => replacements[key] || `{${key}}`);
+// }
 
 export function getEntityFolderName(entityName: string) {
-  return toKebabCase(entityName);
+  return NamingConvention.toKebabCase(entityName);
 }
 
 export function createReplacements(entityName: string) {
   return {
-    entity: toCamelCase(entityName),
-    entities: `${toCamelCase(entityName)}s`,
-    Entity: toPascalCase(entityName),
-    Entities: `${toPascalCase(entityName)}s`,
+    entity: NamingConvention.toCamelCase(entityName),
+    Entity: NamingConvention.toPascalCase(entityName),
+    "entity-folder": getEntityFolderName(entityName),
   };
 }
 
-export function createDirIfNotExists(dir: string) {
-  if (!isExists(dir)) {
-    createDir(dir, { recursive: true });
-  }
-}
+export function copyDir(sourcePath: string, destinationPath: string) {
+  createDir(destinationPath);
 
-export function copyDirWithoutChanges(src: string, dest: string) {
-  createDirIfNotExists(dest);
+  readDir(sourcePath).forEach((element: string) => {
+    const sourcePathPath = joinPaths(sourcePath, element);
+    const destinationPathPath = joinPaths(destinationPath, element);
 
-  readDir(src).forEach((element: string) => {
-    const srcPath = joinPaths(src, element);
-    const destPath = joinPaths(dest, element);
-
-    if (isDirectory(srcPath)) {
-      copyDirWithoutChanges(srcPath, destPath);
+    if (isDirectory(sourcePathPath)) {
+      copyDir(sourcePathPath, destinationPathPath);
     } else {
-      copyFile(srcPath, destPath);
+      copyFile(sourcePathPath, destinationPathPath);
     }
   });
 }
 
-export function copyTemplate(src: string, dest: string, replacements: Replacements) {
-  createDirIfNotExists(dest);
+function replacePlaceholdersInFile(path: string, replacements: Replacements) {
+  const content = readFile(path);
 
-  readDir(src).forEach((element: string) => {
-    const srcPath = joinPaths(src, element);
-    const destPath = joinPaths(dest, replacePlaceholders(element, replacements));
+  const newContent = content
+    .replace(/{entity}/g, replacements.entity)
+    .replace(/{Entity}/g, replacements.Entity)
+    .replace(/{entity-folder}/g, replacements["entity-folder"]);
 
-    if (isDirectory(srcPath)) {
-      copyTemplate(srcPath, destPath, replacements);
-    } else {
-      const content = readFile(srcPath);
-      const replacedContent = replacePlaceholders(content, replacements);
-
-      writeFile(destPath, replacedContent);
-    }
-  });
+  writeFile(path, newContent);
 }
 
-export function removeDirRecursive(dir: string) {
-  if (isExists(dir)) {
-    readDir(dir).forEach((file: string) => {
-      const currentPath = joinPaths(dir, file);
+function replacePlaceholdersInPath(path: string, replacements: Replacements) {
+  const newPath = path
+    .replace(/{entity}/g, replacements.entity)
+    .replace(/{Entity}/g, replacements.Entity)
+    .replace(/{entity-folder}/g, replacements["entity-folder"]);
 
-      if (isDirectory(currentPath)) {
-        removeDirRecursive(currentPath);
-      } else {
-        removeFile(currentPath);
-      }
-    });
-
-    removeDir(dir);
+  if (newPath !== path) {
+    renamePath(path, newPath);
   }
+  return newPath;
 }
 
-export function eraseEntity(entityName: string) {
-  const entityFolder = getEntityFolderName(entityName);
+export function replacePlaceholders(path: string, replacements: Replacements) {
+  const items = readDir(path);
 
-  const domainPath = joinPaths("src/core/domain", entityFolder);
-  const servicePath = joinPaths("src/core/service", entityFolder);
+  for (const item of items) {
+    const itemPath = joinPaths(path, item);
+    const newItemPath = replacePlaceholdersInPath(itemPath, replacements);
 
-  removeDirRecursive(domainPath);
-  removeDirRecursive(servicePath);
+    if (isDirectory(newItemPath)) {
+      replacePlaceholders(newItemPath, replacements);
+    } else {
+      replacePlaceholdersInFile(newItemPath, replacements);
+    }
+  }
 }

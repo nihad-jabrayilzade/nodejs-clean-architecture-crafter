@@ -3,7 +3,7 @@ import processEntity from "./scripts/processEntity";
 import { Answers, Framework, Layer, Orm } from "./@abstraction";
 import { EntityNameRegex } from "./@rule";
 
-async function main() {
+async function _main() {
   const answers = await inquirer.prompt<Answers>([
     {
       type: "input",
@@ -58,4 +58,5 @@ async function main() {
   processEntity(answers.entityName);
 }
 
-main();
+// main();
+processEntity("user transaction");

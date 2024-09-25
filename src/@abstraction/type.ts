@@ -1,6 +1,6 @@
 import { Framework, Layer, Orm } from ".";
 
-type ReplacementKey = "entity" | "entities" | "Entity" | "Entities";
+type ReplacementKey = "entity" | "Entity" | "entity-folder";
 
 type Replacements = {
   [key in ReplacementKey]: string;
