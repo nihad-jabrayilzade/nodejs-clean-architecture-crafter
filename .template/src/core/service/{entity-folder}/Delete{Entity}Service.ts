@@ -1,7 +1,7 @@
 import { Assert } from "@core/common/util/assert";
-import { {Entity}Repository } from "@core/domain/{entity}/repository/{Entity}Repository";
-import { Delete{Entity}UseCase, Delete{Entity}UseCaseResult, Delete{Entity}UseCasePort } from "@core/domain/{entity}/use-case";
-import { {Entity}NotFoundException } from "@core/domain/{entity}/exception";
+import { {Entity}Repository } from "@core/domain/{entity-folder}/repository";
+import { Delete{Entity}UseCase, Delete{Entity}UseCaseResult, Delete{Entity}UseCasePort } from "@core/domain/{entity-folder}/use-case";
+import { {Entity}NotFoundException } from "@core/domain/{entity-folder}/exception";
 
 export class Delete{Entity}Service implements Delete{Entity}UseCase {
   constructor(private readonly {entity}Repository: {Entity}Repository) {}

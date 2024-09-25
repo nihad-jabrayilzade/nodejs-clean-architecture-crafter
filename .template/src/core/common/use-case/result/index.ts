@@ -1,1 +1,1 @@
-export { GetEntitiesUseCaseResult } from '@core/common/use-case/result/GetEntitiesUseCaseResult'
+export { GetEntitiesUseCaseResult } from "@core/common/use-case/result/GetEntitiesUseCaseResult";

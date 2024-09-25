@@ -1,1 +1,1 @@
-export { CreateEntityRepositoryResult } from '@core/common/repository/result/CreateEntityRepositoryResult'
+export { CreateEntityRepositoryResult } from "@core/common/repository/result/CreateEntityRepositoryResult";

@@ -30,4 +30,5 @@
       "@infrastructure/*": ["src/infrastructure/*"]
     }
   },
+  "exclude": ["node_modules", "dist"]
 }

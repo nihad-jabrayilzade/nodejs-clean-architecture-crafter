@@ -5,7 +5,7 @@ export class {Entity} {
 
   public updatedAt: Date;
 
-  public deletedAt: Date
+  public deletedAt: Date;
 
   private constructor({entity}: {Entity}) {
     Object.assign(this, {entity});
@@ -18,9 +18,9 @@ export class {Entity} {
   public update(payload: any): {Entity} {
     this.updatedAt = new Date();
 
-    return this
+    return this;
   }
-  
+
   public delete(): {Entity} {
     this.deletedAt = new Date();
 

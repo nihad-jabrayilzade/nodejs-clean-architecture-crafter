@@ -1,1 +1,1 @@
-export { {Entity} } from "@core/domain/{entity}/entity/{Entity}";
+export { {Entity} } from "@core/domain/{entity-folder}/entity/{Entity}";

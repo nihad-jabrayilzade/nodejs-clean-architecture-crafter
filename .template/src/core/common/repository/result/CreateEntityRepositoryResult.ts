@@ -1,4 +1,4 @@
 export type CreateEntityRepositoryResult = {
-	id: number
-	createdAt: Date
-}
+  id: number;
+  createdAt: Date;
+};

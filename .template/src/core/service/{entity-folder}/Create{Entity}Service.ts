@@ -1,8 +1,8 @@
 import { Assert } from "@core/common/util/assert";
 import { NotNullable } from "@core/common/type";
-import { {Entity}Repository } from "@core/domain/{entity}/repository";
-import { Create{Entity}UseCase, Create{Entity}UseCaseResult, Create{Entity}UseCasePort } from "@core/domain/{entity}/use-case";
-import { {Entity}AlreadyExistsException } from "@core/domain/{entity}/exception";
+import { {Entity}Repository } from "@core/domain/{entity-folder}/repository";
+import { Create{Entity}UseCase, Create{Entity}UseCaseResult, Create{Entity}UseCasePort } from "@core/domain/{entity-folder}/use-case";
+import { {Entity}AlreadyExistsException } from "@core/domain/{entity-folder}/exception";
 
 export class Create{Entity}Service implements Create{Entity}UseCase {
   constructor(private readonly {entity}Repository: {Entity}Repository) {}

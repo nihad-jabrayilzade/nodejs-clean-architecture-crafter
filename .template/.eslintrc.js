@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  plugins: ["@typescript-eslint/eslint-plugin", "boundaries"],
+  plugins: ["@typescript-eslint/eslint-plugin"],
   extends: ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -21,50 +21,6 @@ module.exports = {
       {
         varsIgnorePattern: "^_",
         argsIgnorePattern: "^_",
-      },
-    ],
-    "boundaries/element-types": [
-      2,
-      {
-        default: "disallow",
-        rules: [
-          {
-            from: "core/domain/*",
-            allow: ["core/domain/{entity}/entity", "core/domain/{entity}/repository"],
-          },
-          {
-            from: "core/domain/*",
-            disallow: ["core/domain/client"],
-          },
-        ],
-      },
-    ],
-    "boundaries/no-imports": [
-      2,
-      {
-        default: "disallow",
-        rules: [
-          {
-            from: "core/domain/user",
-            disallow: ["core/domain/client"],
-          },
-        ],
-      },
-    ],
-  },
-  settings: {
-    "boundaries/elements": [
-      {
-        type: "domain",
-        pattern: "core/domain/*",
-      },
-      {
-        type: "common",
-        pattern: "core/common/*",
-      },
-      {
-        type: "service",
-        pattern: "core/service/*",
       },
     ],
   },
