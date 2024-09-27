@@ -1,3 +1,5 @@
+import { Nullable } from "@core/common/type";
+
 export class {Entity} {
   public readonly id: number;
 
@@ -5,7 +7,7 @@ export class {Entity} {
 
   public updatedAt: Date;
 
-  public deletedAt: Date;
+  public deletedAt: Nullable<Date>;
 
   private constructor({entity}: {Entity}) {
     Object.assign(this, {entity});
