@@ -13,7 +13,7 @@ export class TypeOrm{Entity}Mapper implements EntityMapper<TypeOrm{Entity}, {Ent
   }
 
   public toDomainEntities({entity}s: TypeOrm{Entity}[]): {Entity}[] {
-    return {entity}s.map(({entity}) => this.toDomainEntity(ormEntity));
+    return {entity}s.map(({entity}) => this.toDomainEntity({entity}));
   }
 
   public toOrmEntity({entity}: {Entity}): TypeOrm{Entity} {

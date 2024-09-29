@@ -2,7 +2,7 @@ import { Nullable } from "@core/common/type";
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
 @Entity("{Entity}sTbl")
-export class TypeOrmConversation {
+export class TypeOrm{Entity} {
   @PrimaryGeneratedColumn("increment", {
     type: "bigint",
     unsigned: true,

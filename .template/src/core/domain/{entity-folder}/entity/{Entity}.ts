@@ -9,12 +9,11 @@ export class {Entity} {
 
   public deletedAt: Nullable<Date>;
 
-  private constructor({entity}: {Entity}) {
-    Object.assign(this, {entity});
-  }
-
-  public static create({entity}: {Entity}): {Entity} {
-    return new {Entity}({entity});
+  public constructor(payload: CreatePayload) {
+    this.id = payload.id;
+    this.createdAt = payload.createdAt;
+    this.updatedAt = payload.updatedAt;
+    this.deletedAt = payload.deletedAt;
   }
 
   public update(payload: any): {Entity} {
@@ -28,4 +27,11 @@ export class {Entity} {
 
     return this;
   }
+}
+
+type CreatePayload = {
+  id: {Entity}["id"];
+  createdAt: {Entity}["createdAt"];
+  updatedAt: {Entity}["updatedAt"];
+  deletedAt: {Entity}["deletedAt"];
 }

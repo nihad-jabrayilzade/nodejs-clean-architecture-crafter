@@ -19,9 +19,9 @@ async function initializeProject() {
       name: "packageManager",
       message: "Which package manager do you want to use?",
       choices: [
-        { name: "Yarn", value: PackageManager.Yarn },
         { name: "NPM", value: PackageManager.NPM },
-        { name: "PNPM", value: PackageManager.PNPM },
+        { name: "Yarn", value: PackageManager.Yarn, disabled: true, description: "In development" },
+        { name: "PNPM", value: PackageManager.PNPM, disabled: true, description: "In development" },
       ],
     },
     {
