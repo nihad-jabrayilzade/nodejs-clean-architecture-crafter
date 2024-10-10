@@ -1,3 +1,4 @@
-import { Get{Entity}UseCaseResult } from "@core/domain/{entity-folder}/use-case";
+import { GetEntityRepositoryResult } from "@core/common/repository";
+import { {Entity} } from "@core/domain/{entity-folder}/entity";
 
-export type Get{Entity}RepositoryResult = Get{Entity}UseCaseResult;
+export type Get{Entity}RepositoryResult = GetEntityRepositoryResult<{Entity}>;

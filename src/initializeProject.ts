@@ -37,7 +37,6 @@ async function initializeProject() {
   ]);
 
   generateConfigFiles(answers);
-  console.log(`Project initialized successfully.`);
 }
 
 initializeProject();

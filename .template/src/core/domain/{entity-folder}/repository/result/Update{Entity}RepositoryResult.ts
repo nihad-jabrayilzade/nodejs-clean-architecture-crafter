@@ -1,3 +1,3 @@
-import { Update{Entity}UseCaseResult } from "@core/domain/{entity-folder}/use-case";
+import { UpdateEntityRepositoryResult } from "@core/common/repository";
 
-export type Update{Entity}RepositoryResult = Update{Entity}UseCaseResult;
+export type Update{Entity}RepositoryResult = UpdateEntityRepositoryResult;

@@ -1,3 +1,3 @@
-import { Get{Entity}sUseCasePort } from "@core/domain/{entity-folder}/use-case";
+import { GetEntitiesRepositoryPort } from "@core/common/repository";
 
-export type Get{Entity}sRepositoryPort = Get{Entity}sUseCasePort;
+export type Get{Entity}sRepositoryPort = GetEntitiesRepositoryPort;

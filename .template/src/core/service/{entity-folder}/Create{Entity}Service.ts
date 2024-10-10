@@ -8,8 +8,11 @@ export class Create{Entity}Service implements Create{Entity}UseCase {
   constructor(private readonly {entity}Repository: {Entity}Repository) {}
 
   public async execute(port: Create{Entity}UseCasePort): Create{Entity}UseCaseResult {
-    const exists = await this.{entity}Repository.exists({ id: port.id });
-    Assert.isFalse(exists, new {Entity}AlreadyExistsException(port.id));
+    // REPLACE: Add the required unique field for creating {entity}
+    const dummyUniquePropertyFromPort = 123;
+
+    const exists = await this.{entity}Repository.exists({ id: dummyUniquePropertyFromPort });
+    Assert.isFalse(exists, new {Entity}AlreadyExistsException(dummyUniquePropertyFromPort));
 
     const result = await this.{entity}Repository.create{Entity}(port);
 

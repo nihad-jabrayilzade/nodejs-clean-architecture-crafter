@@ -1,3 +1,5 @@
-export type GetEntityUseCasePort<T extends { id: number }> = {
+import { Id } from "@core/common/type";
+
+export type GetEntityUseCasePort<T extends { id: Id }> = {
   id: T["id"];
 };

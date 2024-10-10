@@ -1,11 +1,11 @@
 import { EntityMapper } from "@core/common/mapper/EntityMapper";
-import { {Entity} } from "@core/domain/{Entity}/entity";
-import { TypeOrm{Entity} } from "@infrastructure/persistence/typeorm/{entity}";
+import { {Entity} } from "@core/domain/{entity-folder}/entity";
+import { TypeOrm{Entity} } from "@infrastructure/persistence/typeorm/{entity-folder}";
 
 export class TypeOrm{Entity}Mapper implements EntityMapper<TypeOrm{Entity}, {Entity}> {
   public toDomainEntity({entity}: TypeOrm{Entity}): {Entity} {
     return new {Entity}({
-      id: {entity}.id,
+      id: Number({entity}.id),
       createdAt: {entity}.createdAt,
       updatedAt: {entity}.updatedAt,
       deletedAt: {entity}.deletedAt,

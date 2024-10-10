@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Nullable } from "@core/common/type";
-import { {Entity}Repository } from "@core/domain/{entity}/repository/{Entity}Repository";
+import { {Entity}Repository } from "@core/domain/{entity-folder}/repository/{Entity}Repository";
 import {
   Get{Entity}RepositoryPort,
   Get{Entity}RepositoryResult,
@@ -14,8 +14,10 @@ import {
   Update{Entity}RepositoryResult,
   Delete{Entity}RepositoryPort,
   Delete{Entity}RepositoryResult,
-} from "@core/domain/{entity}/repository";
-import { TypeOrm{Entity}, TypeOrm{Entity}Mapper } from "@infrastructure/persistence/typeorm/{entity}";
+  Is{Entity}ExistsRepositoryPort,
+  Is{Entity}ExistsRepositoryResult,
+} from "@core/domain/{entity-folder}/repository";
+import { TypeOrm{Entity}, TypeOrm{Entity}Mapper } from "@infrastructure/persistence/typeorm/{entity-folder}";
 
 @Injectable()
 export class TypeOrm{Entity}Repository implements {Entity}Repository {
@@ -26,18 +28,22 @@ export class TypeOrm{Entity}Repository implements {Entity}Repository {
   ) {}
 
   public async get{Entity}s(port: Get{Entity}sRepositoryPort): Get{Entity}sRepositoryResult {
-    const [typeOrm{Entity}s, totalItems]: [TypeOrm{Entity}[], number] = await this.{entity}Repository
+    try {
+      const [typeOrm{Entity}s, totalItems]: [TypeOrm{Entity}[], number] = await this.{entity}Repository
       .createQueryBuilder("{entity}")
       .take(port.limit)
       .skip(port.offset)
       .getManyAndCount();
 
-    const {entity}s = this.{entity}Mapper.toDomainEntities(typeOrm{Entity}s);
+      const {entity}s = this.{entity}Mapper.toDomainEntities(typeOrm{Entity}s);
 
-    return {
-      items: {entity}s,
-      totalItems,
-    };
+      return {
+        items: {entity}s,
+        totalItems,
+      };
+    } catch (exception) {
+      throw exception;
+    }
   }
 
   public async get{Entity}(port: Get{Entity}RepositoryPort): Get{Entity}RepositoryResult {
@@ -81,6 +87,16 @@ export class TypeOrm{Entity}Repository implements {Entity}Repository {
       const typeOrm{Entity} = this.{entity}Mapper.toOrmEntity(port);
       
       await this.{entity}Repository.remove(typeOrm{Entity});
+    } catch (exception) {
+      throw exception;
+    }
+  }
+
+  public async exists(port: Is{Entity}ExistsRepositoryPort): Is{Entity}ExistsRepositoryResult {
+    try {
+      const exists: boolean = await this.{entity}Repository.existsBy(port);
+
+      return exists;
     } catch (exception) {
       throw exception;
     }

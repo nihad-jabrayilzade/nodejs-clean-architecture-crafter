@@ -1,6 +1,8 @@
 export class Exception extends Error {
-  constructor(message: string = "An unexpected error occurred") {
+  constructor(message: string) {
     super(message);
-    this.name = "Exception";
+
+    this.name = new.target.name;
+    Error.captureStackTrace(this, this.constructor);
   }
 }

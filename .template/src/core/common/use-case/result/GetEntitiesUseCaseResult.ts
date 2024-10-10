@@ -1,4 +1,4 @@
-export type GetEntitiesUseCaseResult<T> = {
-  items: T[];
+export type GetEntitiesUseCaseResult<E> = {
+  items: E[];
   totalItems: number;
 };

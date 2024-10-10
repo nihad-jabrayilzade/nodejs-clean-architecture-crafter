@@ -1,4 +1,4 @@
-import { Nullable } from "@core/common/type";
+import { Nullable, NumericString } from "@core/common/type";
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
 @Entity("{Entity}sTbl")
@@ -7,7 +7,7 @@ export class TypeOrm{Entity} {
     type: "bigint",
     unsigned: true,
   })
-  id: number;
+  id: NumericString;
 
   @CreateDateColumn({
     type: "datetime",

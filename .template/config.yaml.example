@@ -1,0 +1,30 @@
+enviroment: development
+app:
+  port: 4000
+  hostname: localhost
+  prefix: /api/v1
+  name: "Dummy name"
+  description: "Dummy description"
+  title: "Dummy title"
+database:
+  mysql:
+    host:
+    port:
+    username:
+    password:
+    name:
+    retryAttempts:
+    connectTimeout:
+swagger:
+  path: docs
+  title: "Dummy title"
+  description: "Dummy description"
+  version:
+  contact:
+    name:
+    url:
+    email:
+  auth:
+    type:
+    in:
+    name: Authorization

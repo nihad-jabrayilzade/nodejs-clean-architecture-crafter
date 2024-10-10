@@ -3,3 +3,4 @@ export { Get{Entity}sRepositoryResult } from "@core/domain/{entity-folder}/repos
 export { Create{Entity}RepositoryResult } from "@core/domain/{entity-folder}/repository/result/Create{Entity}RepositoryResult";
 export { Update{Entity}RepositoryResult } from "@core/domain/{entity-folder}/repository/result/Update{Entity}RepositoryResult";
 export { Delete{Entity}RepositoryResult } from "@core/domain/{entity-folder}/repository/result/Delete{Entity}RepositoryResult";
+export { Is{Entity}ExistsRepositoryResult } from "@core/domain/{entity-folder}/repository/result/Is{Entity}ExistsRepositoryResult";

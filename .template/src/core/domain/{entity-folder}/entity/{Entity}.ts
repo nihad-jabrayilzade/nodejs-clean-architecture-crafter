@@ -1,7 +1,7 @@
-import { Nullable } from "@core/common/type";
+import { Id, Nullable } from "@core/common/type";
 
 export class {Entity} {
-  public readonly id: number;
+  public readonly id: Id;
 
   public readonly createdAt: Date;
 

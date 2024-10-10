@@ -7,6 +7,7 @@ export function createReplacements(entityName: string) {
     entity: NamingConvention.toCamelCase(entityName),
     Entity: NamingConvention.toPascalCase(entityName),
     "entity-folder": getEntityFolderName(entityName),
+    "entity-controller": getEntityFolderName(entityName),
   };
 }
 
@@ -61,16 +62,14 @@ function replacePlaceholdersInFile(path: string, replacements: Replacements) {
   const newContent = content
     .replace(/{entity}/g, replacements.entity)
     .replace(/{Entity}/g, replacements.Entity)
-    .replace(/{entity-folder}/g, replacements["entity-folder"]);
+    .replace(/{entity-folder}/g, replacements["entity-folder"])
+    .replace(/{entity-controller}/g, replacements["entity-controller"]);
 
   writeFile(path, newContent);
 }
 
 function replacePlaceholdersInPath(path: string, replacements: Replacements) {
-  const newPath = path
-    .replace(/{entity}/g, replacements.entity)
-    .replace(/{Entity}/g, replacements.Entity)
-    .replace(/{entity-folder}/g, replacements["entity-folder"]);
+  const newPath = path.replace(/{Entity}/g, replacements.Entity).replace(/{entity-folder}/g, replacements["entity-folder"]);
 
   if (newPath !== path) {
     renamePath(path, newPath);

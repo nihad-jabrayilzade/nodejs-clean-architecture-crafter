@@ -1,3 +1,5 @@
-export type DeleteEntityUseCasePort<T extends { id: number }> = {
+import { Id } from "@core/common/type";
+
+export type DeleteEntityUseCasePort<T extends { id: Id }> = {
   id: T["id"];
 };
