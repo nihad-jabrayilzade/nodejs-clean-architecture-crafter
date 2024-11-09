@@ -8,7 +8,7 @@
   "scripts": {
     "init": "rm -rf .output/ && ts-node src/initializeProject.ts",
     "generate": "ts-node src/processEntity.ts",
-    "preview": "rm -rf .output/ && ts-node src/preview.ts && sudo chmod -R 777 .output",
+    "preview": "rm -rf .output/ && ts-node src/preview.ts && sudo chmod -R 777 .output && cd .output && sudo npm i && sudo tsc && code .",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix"
   },
