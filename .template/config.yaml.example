@@ -1,4 +1,4 @@
-enviroment: development
+environment: development
 app:
   port: 4000
   hostname: localhost
@@ -8,13 +8,13 @@ app:
   title: "Dummy title"
 database:
   mysql:
-    host:
-    port:
-    username:
-    password:
-    name:
-    retryAttempts:
-    connectTimeout:
+    host: "23.88.115.31"
+    port: 3306
+    username: "root"
+    password: "root12!"
+    name: "db"
+    retryAttempts: 2
+    connectTimeout: 30000
 swagger:
   path: docs
   title: "Dummy title"
@@ -24,7 +24,7 @@ swagger:
     name:
     url:
     email:
-  auth:
+  securityScheme:
     type:
     in:
-    name: Authorization
+    name:

@@ -12,6 +12,9 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:create": "npm run typeorm -- migration:create src/infrastructure/persistence/typeorm/migrations/",
+    "migration:generate": "npm run typeorm -- migration:generate -n",
     "lint": "eslint \"{src}/**/*.ts\" --fix"
   },
   "dependencies": {

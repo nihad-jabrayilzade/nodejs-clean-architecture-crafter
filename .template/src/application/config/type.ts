@@ -11,6 +11,13 @@ export enum Environment {
   Test = "test",
 }
 
+export enum SwaggerSecuritySchemeType {
+  ApiKey = "apiKey",
+  Http = "http",
+  OAuth2 = "oauth2",
+  OpenIdConnect = "openIdConnect",
+}
+
 export type AppConfig = {
   port: number;
   hostname: string;
@@ -29,7 +36,7 @@ export type MysqlDatabaseConfig = {
   port: number;
   username: string;
   password: string;
-  name: string;
+  name?: string;
   retryAttempts: number;
   connectTimeout: number;
 };
@@ -40,7 +47,7 @@ export type SwaggerConfig = {
   description?: string;
   version?: string;
   contact?: SwaggerContactConfig;
-  auth?: SwaggerAuthConfig;
+  securityScheme?: SwaggerSecuritySchemeConfig;
 };
 
 export type SwaggerContactConfig = {
@@ -49,8 +56,8 @@ export type SwaggerContactConfig = {
   email?: string;
 };
 
-export type SwaggerAuthConfig = {
-  type?: string;
+export type SwaggerSecuritySchemeConfig = {
+  type?: SwaggerSecuritySchemeType;
   in?: string;
   name?: string;
 };

@@ -7,7 +7,6 @@ import { join } from "path";
 
 const YAML_CONFIG_FILENAME = "../../../config.yaml";
 
-// Рекурсивная функция для форматирования ошибок
 function formatError(errors: ValidationError[], parentPath: string = ""): string {
   return errors
     .map((error) => {
@@ -19,7 +18,6 @@ function formatError(errors: ValidationError[], parentPath: string = ""): string
       }
 
       if (error.children && error.children.length > 0) {
-        // Рекурсивная обработка дочерних ошибок
         return formatError(error.children, propertyPath);
       }
 
@@ -29,9 +27,7 @@ function formatError(errors: ValidationError[], parentPath: string = ""): string
 }
 
 export default () => {
-  const yamlConfig = yaml.load(readFileSync(join(__dirname, YAML_CONFIG_FILENAME), "utf8")) as Record<string, any>;
-
-  const validatedConfig = plainToClass(ConfigValidationSchema, yamlConfig);
+  const validatedConfig = plainToClass(ConfigValidationSchema, getYamlConfig());
 
   const errors = validateSync(validatedConfig, {
     stopAtFirstError: false,
@@ -43,6 +39,16 @@ export default () => {
   }
 
   return validatedConfig;
+};
+
+const getYamlConfig = (): Record<string, any> => {
+  try {
+    const yamlConfig = yaml.load(readFileSync(join(__dirname, YAML_CONFIG_FILENAME), "utf8")) as Record<string, any>;
+
+    return yamlConfig;
+  } catch (error) {
+    throw new ConfigValidationException("YAML config file is not found or has invalid format.");
+  }
 };
 
 export * from "@application/config/validation-schema";

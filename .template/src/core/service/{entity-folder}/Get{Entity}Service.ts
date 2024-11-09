@@ -9,8 +9,6 @@ export class Get{Entity}Service implements Get{Entity}UseCase {
   public async execute(port: Get{Entity}UseCasePort): Get{Entity}UseCaseResult {
     const result = await this.{entity}Repository.get{Entity}(port);
 
-    Assert.notNull(result, new {Entity}NotFoundException(port.id));
-
     return result;
   }
 }

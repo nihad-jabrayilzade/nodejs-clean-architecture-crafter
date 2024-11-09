@@ -1,4 +1,4 @@
-import { DatabaseConfig } from "@application/config";
+import { DatabaseConfig, Environment } from "@application/config";
 import { TypeOrmDirectory } from "@infrastructure/persistence/typeorm";
 import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
@@ -9,6 +9,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
+        const environment = configService.get<Environment>("environment");
         const config = configService.get<DatabaseConfig>("database");
 
         return {
@@ -21,8 +22,9 @@ import { TypeOrmModule } from "@nestjs/typeorm";
           database: config.mysql.name,
           retryAttempts: config.mysql.retryAttempts,
           connectTimeout: config.mysql.connectTimeout,
-          entities: [`${TypeOrmDirectory}/**/entity/*{.ts}`],
-          migrations: [`${TypeOrmDirectory}/migration/*{.ts}`],
+          entities: [`${TypeOrmDirectory}/feature/**/*.entity{.ts,.js}`],
+          migrations: [`/db/migration`],
+          synchronize: environment === Environment.Development,
         };
       },
     }),

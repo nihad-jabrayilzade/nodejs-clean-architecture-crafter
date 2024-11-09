@@ -16,7 +16,7 @@ import {
 } from "@core/domain/{entity-folder}/use-case";
 
 
-@Controller("{entity-controller}")
+@Controller("{entity-controller}s")
 @ApiTags("{Entity}s")
 @ApiBearerAuth()
 export class {Entity}Controller {

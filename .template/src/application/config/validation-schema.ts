@@ -1,8 +1,18 @@
 import { IsEnum, IsInt, IsNotEmpty, IsString, Min, IsObject, IsOptional, ValidateNested, ValidateIf } from "class-validator";
 import { Type } from "class-transformer";
-import { Environment } from "./type";
+import {
+  AppConfig,
+  Config,
+  DatabaseConfig,
+  Environment,
+  MysqlDatabaseConfig,
+  SwaggerSecuritySchemeConfig,
+  SwaggerConfig,
+  SwaggerContactConfig,
+  SwaggerSecuritySchemeType,
+} from "./type";
 
-export class SwaggerContactConfigValidationSchema {
+export class SwaggerContactConfigValidationSchema implements SwaggerContactConfig {
   @IsString()
   @IsOptional()
   name?: string;
@@ -16,10 +26,10 @@ export class SwaggerContactConfigValidationSchema {
   email?: string;
 }
 
-export class SwaggerAuthConfigValidationSchema {
+export class SwaggerSecuritySchemeConfigValidationSchema implements SwaggerSecuritySchemeConfig {
   @IsOptional()
-  @IsString()
-  type?: string;
+  // @IsEnum(SwaggerSecuritySchemeType)
+  type?: SwaggerSecuritySchemeType;
 
   @IsOptional()
   @IsString()
@@ -30,7 +40,7 @@ export class SwaggerAuthConfigValidationSchema {
   name?: string;
 }
 
-export class SwaggerConfigValidationSchema {
+export class SwaggerConfigValidationSchema implements SwaggerConfig {
   @IsOptional()
   @IsString()
   path?: string;
@@ -54,11 +64,11 @@ export class SwaggerConfigValidationSchema {
 
   @ValidateNested()
   @IsOptional()
-  @Type(() => SwaggerAuthConfigValidationSchema)
-  auth?: SwaggerAuthConfigValidationSchema;
+  @Type(() => SwaggerSecuritySchemeConfigValidationSchema)
+  auth?: SwaggerSecuritySchemeConfigValidationSchema;
 }
 
-export class MysqlDatabaseConfigValidationSchema {
+export class MysqlDatabaseConfigValidationSchema implements MysqlDatabaseConfig {
   @IsString()
   @IsNotEmpty()
   host: string;
@@ -77,7 +87,8 @@ export class MysqlDatabaseConfigValidationSchema {
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  @IsOptional()
+  name?: string;
 
   @IsInt()
   @Min(0)
@@ -88,13 +99,13 @@ export class MysqlDatabaseConfigValidationSchema {
   connectTimeout: number;
 }
 
-export class DatabaseConfigValidationSchema {
+export class DatabaseConfigValidationSchema implements DatabaseConfig {
   @ValidateNested()
   @Type(() => MysqlDatabaseConfigValidationSchema)
   mysql: MysqlDatabaseConfigValidationSchema;
 }
 
-export class AppConfigValidationSchema {
+export class AppConfigValidationSchema implements AppConfig {
   @IsInt()
   @Min(1)
   port: number;
@@ -120,7 +131,7 @@ export class AppConfigValidationSchema {
   title: string;
 }
 
-export class ConfigValidationSchema {
+export class ConfigValidationSchema implements Config {
   @IsEnum(Environment)
   environment: Environment;
 

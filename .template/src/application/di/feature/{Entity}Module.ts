@@ -1,6 +1,6 @@
 import { Global, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { TypeOrm{Entity}Repository, TypeOrm{Entity} } from "@infrastructure/persistence/typeorm/{entity-folder}";
+import { TypeOrm{Entity}Repository, TypeOrm{Entity} } from "@infrastructure/persistence/typeorm/feature/{entity-folder}";
 import { {Entity}Controller } from "@application/api/rest/{entity-folder}/controller/{Entity}Controller";
 import { {Entity}DITokens } from "@core/domain/{entity-folder}/di";
 import { {Entity}Repository } from "@core/domain/{entity-folder}/repository";

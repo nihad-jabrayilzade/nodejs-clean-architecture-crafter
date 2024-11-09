@@ -1,6 +1,6 @@
 import { EntityMapper } from "@core/common/mapper/EntityMapper";
 import { {Entity} } from "@core/domain/{entity-folder}/entity";
-import { TypeOrm{Entity} } from "@infrastructure/persistence/typeorm/{entity-folder}";
+import { TypeOrm{Entity} } from "@infrastructure/persistence/typeorm/feature/{entity-folder}";
 
 export class TypeOrm{Entity}Mapper implements EntityMapper<TypeOrm{Entity}, {Entity}> {
   public toDomainEntity({entity}: TypeOrm{Entity}): {Entity} {

@@ -1,10 +1,10 @@
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
-import { Logger, ValidationPipe } from "@nestjs/common";
-import { DocumentBuilder, OpenAPIObject, SwaggerModule } from "@nestjs/swagger";
-import { SecuritySchemeType } from "@nestjs/swagger/dist/interfaces/open-api-spec.interface";
+import { Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from "@nestjs/swagger";
 import { RootModule } from "@application/di/RootModule";
+import { AppConfig, SwaggerConfig } from "@application/config";
 
 export class ServerApplication {
   private app: NestExpressApplication;
@@ -20,14 +20,13 @@ export class ServerApplication {
 
     this.enableCors();
 
-    this.useGlobalPipes();
-
     this.setGlobalPrefix();
 
     this.setupSwagger();
 
-    const appPort = this.configService.get<number>("APP_PORT") as number;
-    const appHostname = this.configService.get<string>("APP_HOSTNAME") as string;
+    const appConfig = this.configService.get<AppConfig>("app");
+    const appHostname = appConfig.hostname;
+    const appPort = appConfig.port;
 
     await this.app.listen(appPort, appHostname);
 
@@ -39,47 +38,23 @@ export class ServerApplication {
   }
 
   private setupSwagger(): void {
-    const path = this.configService.get<string>("SWAGGER_DOCS_PATH") as string;
-    const version = this.configService.get<string>("SWAGGER_DOCS_VERSION") as string;
-
-    const title = this.configService.get<string>("SWAGGER_DOCS_TITLE") as string;
-    const description = this.configService.get<string>("SWAGGER_DOCS_DESCRIPTION") as string;
-
-    const contactName = this.configService.get<string>("SWAGGER_CONTACT_NAME") as string;
-    const contactURL = this.configService.get<string>("SWAGGER_CONTACT_URL") as string;
-    const contactEmail = this.configService.get<string>("SWAGGER_CONTACT_EMAIL") as string;
-
-    const bearerAuthType = this.configService.get<string>("SWAGGER_BEARER_AUTH_TYPE") as SecuritySchemeType;
-    const bearerAuthIn = this.configService.get<string>("SWAGGER_BEARER_AUTH_IN") as string;
-    const bearerAuthName = this.configService.get<string>("SWAGGER_BEARER_AUTH_NAME") as string;
+    const config = this.configService.get<SwaggerConfig>("swagger");
 
     const options: Omit<OpenAPIObject, "paths"> = new DocumentBuilder()
-      .setTitle(title)
-      .setDescription(description)
-      .setTitle(title)
-      .setVersion(version)
-      .setContact(contactName, contactURL, contactEmail)
-      .addBearerAuth({ type: bearerAuthType, in: bearerAuthIn, name: bearerAuthName })
+      .setTitle(config.title)
+      .setDescription(config.description)
+      .setTitle(config.title)
+      .setVersion(config.version)
+      .setContact(config.contact.name, config.contact.url, config.contact.email)
+      .addBearerAuth({ type: config.securityScheme.type, in: config.securityScheme.in, name: config.securityScheme.name })
       .build();
 
     const document: OpenAPIObject = SwaggerModule.createDocument(this.app, options);
-    SwaggerModule.setup(path, this.app, document);
-  }
-
-  private useGlobalPipes(): void {
-    this.app.useGlobalPipes(
-      new ValidationPipe({
-        transform: true,
-        stopAtFirstError: true,
-        transformOptions: {
-          exposeUnsetFields: false,
-        },
-      }),
-    );
+    SwaggerModule.setup(config.path, this.app, document);
   }
 
   private setGlobalPrefix(): void {
-    const appGlobalPrefix: string = this.configService.get<string>("APP_GLOBAL_PREFIX") as string;
+    const appGlobalPrefix = this.configService.get<AppConfig["prefix"]>("app.prefix");
     this.app.setGlobalPrefix(appGlobalPrefix);
   }
 
