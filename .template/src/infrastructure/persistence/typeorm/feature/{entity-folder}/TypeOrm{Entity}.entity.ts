@@ -1,8 +1,8 @@
 import { Nullable, NumericString } from "@core/common/type";
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
-@Entity("UserTransactionsTbl")
-export class TypeOrmUserTransaction {
+@Entity("{Entity}sTbl")
+export class TypeOrm{Entity} {
   @PrimaryGeneratedColumn({
     type: "bigint",
   })

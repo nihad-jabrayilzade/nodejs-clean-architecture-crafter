@@ -1,5 +1,8 @@
 enum Layer {
   Core = "core",
+  CoreCommon = "core/common",
+  CoreDomain = "core/domain",
+  CoreService = "core/service",
   Application = "application",
   Infrastructure = "infrastructure",
 }

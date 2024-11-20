@@ -1,10 +1,9 @@
 import inquirer from "inquirer";
 import { __output_dirname, __output_src_dirname } from "../dirnames";
-import { EntityProcessingAnswers, Layer } from "./@abstraction";
-import generateCoreLayer from "./@scripts/generateCoreLayer";
+import { EntityProcessingAnswers } from "./@abstraction";
 import { EntityNameRegex } from "./@rule";
 import { createReplacements } from "./@util";
-import generateInfrastructureLayer from "./@scripts/generateInfrastructureLayer";
+import { generateCoreDomainLayer, generateInfrastructureLayer, generateApplicationLayer, generateCoreServiceLayer } from "./@scripts";
 
 async function processEntity() {
   const answers = await inquirer.prompt<EntityProcessingAnswers>([
@@ -25,37 +24,14 @@ async function processEntity() {
         return true;
       },
     },
-    {
-      type: "list",
-      name: "layer",
-      message: "Which layer do you want to generate?",
-      choices: [
-        { name: "All", value: "all" },
-        { name: "Core", value: Layer.Core },
-        { name: "Infrastructure", value: Layer.Infrastructure },
-        { name: "Application", value: Layer.Application },
-      ],
-    },
   ]);
 
   const replacements = createReplacements(answers.name);
 
-  switch (answers.layer) {
-    case "all":
-      generateCoreLayer({ replacements });
-      generateInfrastructureLayer({ replacements });
-      // generateApplicationLayer(answers.name);
-      break;
-    case Layer.Core:
-      generateCoreLayer({ replacements });
-      break;
-    case Layer.Infrastructure:
-      generateInfrastructureLayer({ replacements });
-      break;
-    case Layer.Application:
-      // generateApplicationLayer(answers.name);
-      break;
-  }
+  generateCoreDomainLayer({ replacements });
+  generateCoreServiceLayer({ replacements });
+  generateInfrastructureLayer({ replacements });
+  generateApplicationLayer({ replacements });
 }
 
 processEntity();

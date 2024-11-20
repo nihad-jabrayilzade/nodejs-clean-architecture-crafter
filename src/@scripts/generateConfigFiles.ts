@@ -3,18 +3,16 @@ import { ProjectInitializationAnswers } from "../@abstraction";
 import { copyFile, createDir, isFile, readDir } from "../@lib/fs";
 import { joinPaths } from "../@lib/path";
 
-function generateConfigFiles(_answers: ProjectInitializationAnswers) {
+export function generateConfigFiles(_answers: ProjectInitializationAnswers) {
   createDir(__output_dirname);
   createDir(__output_src_dirname);
 
   readDir(__template_dirname).forEach((file) => {
-    const srcPath = joinPaths(__template_dirname, file);
-    const destPath = joinPaths(__output_dirname, file);
+    const sourcePath = joinPaths(__template_dirname, file);
+    const destinationPath = joinPaths(__output_dirname, file);
 
-    if (isFile(srcPath)) {
-      copyFile(srcPath, destPath);
+    if (isFile(sourcePath)) {
+      copyFile(sourcePath, destinationPath);
     }
   });
 }
-
-export default generateConfigFiles;

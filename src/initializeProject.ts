@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
 import { ProjectInitializationAnswers, Framework, Orm, PackageManager } from "./@abstraction";
 import { __output_dirname, __output_src_dirname } from "../dirnames";
-import generateConfigFiles from "./@scripts/generateConfigFiles";
+import { generateCoreCommonLayer, generateConfigFiles } from "./@scripts";
 
 async function initializeProject() {
   const answers = await inquirer.prompt<ProjectInitializationAnswers>([
@@ -37,6 +37,7 @@ async function initializeProject() {
   ]);
 
   generateConfigFiles(answers);
+  generateCoreCommonLayer();
 }
 
 initializeProject();

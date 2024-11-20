@@ -1,5 +1,5 @@
 import { Replacements } from "../@abstraction";
-import { copyFile, createDir, isDirectory, readDir, readFile, renamePath, writeFile } from "../@lib/fs";
+import { copyFile, createDir, isDirectory, isExists, readDir, readFile, renamePath, writeFile } from "../@lib/fs";
 import { joinPaths } from "../@lib/path";
 
 export function createReplacements(entityName: string) {
@@ -12,7 +12,9 @@ export function createReplacements(entityName: string) {
 }
 
 export function copyDir(sourcePath: string, destinationPath: string) {
-  createDir(destinationPath);
+  if (!isExists(destinationPath)) {
+    createDir(destinationPath);
+  }
 
   readDir(sourcePath).forEach((element: string) => {
     const sourcePathPath = joinPaths(sourcePath, element);

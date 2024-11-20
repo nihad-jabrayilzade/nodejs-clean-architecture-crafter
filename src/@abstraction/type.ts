@@ -1,4 +1,4 @@
-import { Framework, Layer, Orm } from ".";
+import { Framework, Orm } from ".";
 
 type ReplacementKey = "entity" | "Entity" | "entity-folder" | "entity-controller";
 
@@ -14,7 +14,6 @@ type ProjectInitializationAnswers = {
 
 type EntityProcessingAnswers = {
   name: string;
-  layer: Layer & "all";
 };
 
 type LayerGenerationProps = {

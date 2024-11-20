@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { Assert } from "@core/common/util/assert";
 import { NotNullable } from "@core/common/type";
 import { {Entity}Repository } from "@core/domain/{entity-folder}/repository";

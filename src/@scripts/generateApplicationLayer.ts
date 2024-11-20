@@ -3,12 +3,10 @@ import { copyDir, replacePlaceholders } from "../@util";
 import { joinPaths } from "../@lib/path";
 import { Layer, LayerGenerationProps } from "../@abstraction";
 
-const applicationLayerSourcePath = joinPaths(__template_src_dirname, Layer.Application);
-const applicationLayerDestinationPath = joinPaths(__output_src_dirname, Layer.Application);
+const sourcePath = joinPaths(__template_src_dirname, Layer.Application);
+const destinationPath = joinPaths(__output_src_dirname, Layer.Application);
 
-function generateApplicationLayer({ replacements }: LayerGenerationProps) {
-  copyDir(applicationLayerSourcePath, applicationLayerDestinationPath);
-  replacePlaceholders(applicationLayerDestinationPath, replacements);
+export function generateApplicationLayer({ replacements }: LayerGenerationProps) {
+  copyDir(sourcePath, destinationPath);
+  replacePlaceholders(destinationPath, replacements);
 }
-
-export default generateApplicationLayer;

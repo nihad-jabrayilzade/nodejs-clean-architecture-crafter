@@ -1,8 +1,26 @@
 import { Module } from "@nestjs/common";
+import { readdirSync } from "fs";
+import { join } from "path";
 
-import { {Entity}Module } from "@application/di/feature/{Entity}Module";
+function loadFeatureModules() {
+  const modules = [];
+  const featureDir = join(__dirname, "feature");
+
+  readdirSync(featureDir).forEach((file) => {
+    if (file.endsWith("Module.js")) {
+      const modulePath = join(featureDir, file);
+      const module = require(modulePath);
+
+      modules.push(module[Object.keys(module)[0]]);
+    }
+  });
+
+  return modules;
+}
 
 @Module({
-  imports: [{Entity}Module],
+  imports: loadFeatureModules(),
 })
 export class FeatureModule {}
+
+//

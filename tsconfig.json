@@ -9,5 +9,5 @@
     "outDir": "./dist"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", ".template", ".output"]
+  "exclude": ["node_modules", "dist", "template", "output"]
 }
